@@ -150,13 +150,6 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
       power_demand = last_power_demand;
       ESP_LOGI(TAG, "'%s': Oscillation prevention, keeping previous demand: %d; consumption: %d",
                this->get_modbus_name(), last_power_demand, importing_now);
-
-    } else if (this->power_demand_delta_ != 0 && abs(this->power_demand_delta_) < abs(this->power_demand_delta_ + power_demand - last_power_demand)) {
-      //increase delta for next loop
-      ESP_LOGI(TAG, "'%s': increasing delta from: %d; to %d",
-               this->get_modbus_name(), this->power_demand_delta_, this->power_demand_delta_ + power_demand - last_power_demand);
-
-      this->power_demand_delta_ += power_demand - last_power_demand;
     }
   } else {
     power_demand = importing_now + last_power_demand;
