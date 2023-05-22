@@ -121,6 +121,11 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
              this->get_modbus_name());
 
   } else if (this->power_demand_delta_timeout_ > 0) {
+    //smooth out calculation by ignoring too high consumption?
+    if (importing_now > this->max_power_demand_) {
+        importing_now = this->max_power_demand_;
+    }
+
     int16_t consumption_diff = this->last_consumption_ > importing_now ? this->last_consumption_ - importing_now
                                                                        : importing_now - this->last_consumption_;
     float demand_delta_pid = abs(this->power_demand_delta_) * this->power_demand_delta_pid_kp_;
