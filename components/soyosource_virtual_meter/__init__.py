@@ -105,7 +105,7 @@ CONFIG_SCHEMA = cv.All(
                 default=DEFAULT_CONF_POWER_SENSOR_PID_KP,
             ): cv.float_range(
                 min=0.01,
-                max=1.0,
+                max=10.0,
             ),
         }
     )
