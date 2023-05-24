@@ -130,7 +130,7 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
              consumption_diff, this->power_demand_delta_, demand_delta_pid);
 
     if (this->power_demand_delta_ != 0 && (consumption_diff > demand_delta_pid ||
-        ((this->last_consumption_ < 0 && importing_now > 0) || (this->last_consumption_ > 0 && importing_now < 0)) ||
+        //((this->last_consumption_ < 0 && importing_now > 0) || (this->last_consumption_ > 0 && importing_now < 0)) ||
          millis() > this->power_demand_delta_timestamp_ + this->power_demand_delta_timeout_)) {
 
       this->power_demand_delta_ = 0;
