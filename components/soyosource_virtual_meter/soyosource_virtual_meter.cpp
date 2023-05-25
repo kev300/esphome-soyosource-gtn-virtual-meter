@@ -167,12 +167,7 @@ int16_t SoyosourceVirtualMeter::calculate_power_demand_negative_measurements_(in
     this->power_demand_delta_timestamp_ = millis();
   }
 
-  //smooth out calculation by ignoring too high consumption?
-  if (importing_now > this->max_power_demand_) {
-    this->last_consumption_ = this->max_power_demand_;
-  } else {
-    this->last_consumption_ = importing_now;
-  }
+  this->last_consumption_ = importing_now;
 
   return power_demand;
 }
