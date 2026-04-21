@@ -26,9 +26,9 @@ jobs:
   yamllint:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
       - name: Run yamllint
-        uses: frenck/action-yamllint@v1
+        uses: frenck/action-yamllint@34b4bbcaeabedcfefad6adea8c5bbc42af0e2d47  # v1.5.0
         with:
           config: .yamllint
 
@@ -39,10 +39,10 @@ jobs:
       repo-hash: ${{ github.sha }}
     steps:
       - name: Check out this project
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
 
       - name: Check out code from ESPHome project
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
         with:
           repository: esphome/esphome
           ref: dev
@@ -59,7 +59,7 @@ jobs:
           ln -sf ../venv venv
 
       - name: Archive prepared repository
-        uses: pyTooling/upload-artifact@v4
+        uses: pyTooling/upload-artifact@a59f191f676112c140f4330026bbb6ac19b7a44d  # v7
         with:
           name: bundle
           path: .
@@ -74,7 +74,7 @@ jobs:
       cache-key: ${{ steps.cache-key.outputs.key }}
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -86,12 +86,12 @@ jobs:
         run: echo key="${{ hashFiles('esphome/requirements.txt', 'esphome/requirements_test.txt') }}" >> $GITHUB_OUTPUT
       - name: Set up Python ${{ env.DEFAULT_PYTHON }}
         id: python
-        uses: actions/setup-python@v5.6.0
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405  # v6.2.0
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
       - name: Restore Python virtual environment
         id: cache-venv
-        uses: actions/cache@v4.2.3
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7  # v5.0.4
         with:
           path: venv
           # yamllint disable-line rule:line-length
@@ -118,7 +118,7 @@ jobs:
         working-directory: esphome
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -150,7 +150,7 @@ jobs:
         working-directory: esphome
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -181,7 +181,7 @@ jobs:
         working-directory: esphome
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -212,7 +212,7 @@ jobs:
         working-directory: esphome
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -243,7 +243,7 @@ jobs:
         working-directory: esphome
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -279,7 +279,7 @@ jobs:
         working-directory: esphome
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -322,20 +322,8 @@ jobs:
             options: --environment esp8266-arduino-tidy --grep USE_ESP8266
             pio_cache_key: tidyesp8266
           - id: clang-tidy
-            name: Run script/clang-tidy for ESP32 Arduino 1/4
-            options: --environment esp32-arduino-tidy --split-num 4 --split-at 1
-            pio_cache_key: tidyesp32
-          - id: clang-tidy
-            name: Run script/clang-tidy for ESP32 Arduino 2/4
-            options: --environment esp32-arduino-tidy --split-num 4 --split-at 2
-            pio_cache_key: tidyesp32
-          - id: clang-tidy
-            name: Run script/clang-tidy for ESP32 Arduino 3/4
-            options: --environment esp32-arduino-tidy --split-num 4 --split-at 3
-            pio_cache_key: tidyesp32
-          - id: clang-tidy
-            name: Run script/clang-tidy for ESP32 Arduino 4/4
-            options: --environment esp32-arduino-tidy --split-num 4 --split-at 4
+            name: Run script/clang-tidy for ESP32 Arduino
+            options: --environment esp32-arduino-tidy
             pio_cache_key: tidyesp32
           - id: clang-tidy
             name: Run script/clang-tidy for ESP32 IDF
@@ -344,7 +332,7 @@ jobs:
 
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -358,18 +346,20 @@ jobs:
           cache-key: ${{ needs.common.outputs.cache-key }}
 
       - name: Cache platformio
-        if: github.ref == 'refs/heads/dev'
-        uses: actions/cache@v4.2.3
+        if: github.ref == 'refs/heads/main'
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7  # v5.0.4
         with:
           path: ~/.platformio
-          key: platformio-${{ matrix.pio_cache_key }}
+          key: platformio-${{ matrix.pio_cache_key }}-${{ hashFiles('esphome/platformio.ini') }}
+          restore-keys: platformio-${{ matrix.pio_cache_key }}-
 
       - name: Cache platformio
-        if: github.ref != 'refs/heads/dev'
-        uses: actions/cache/restore@v4.2.3
+        if: github.ref != 'refs/heads/main'
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7  # v5.0.4
         with:
           path: ~/.platformio
-          key: platformio-${{ matrix.pio_cache_key }}
+          key: platformio-${{ matrix.pio_cache_key }}-${{ hashFiles('esphome/platformio.ini') }}
+          restore-keys: platformio-${{ matrix.pio_cache_key }}-
 
       - name: Register problem matchers
         run: |
@@ -386,7 +376,7 @@ jobs:
       - name: Run clang-tidy
         run: |
           . venv/bin/activate
-          script/clang-tidy --all-headers --fix ${{ matrix.options }} ../components
+          script/clang-tidy --all-headers --fix ${{ matrix.options }} $(ls ../components/)
         env:
           # Also cache libdeps, store them in a ~/.platformio subfolder
           PLATFORMIO_LIBDEPS_DIR: ~/.platformio/libdeps
@@ -396,6 +386,30 @@ jobs:
         # yamllint disable-line rule:line-length
         if: always()
 
+  pytest:
+    name: Run pytest
+    runs-on: ubuntu-24.04
+    needs:
+      - bundle
+      - common
+    steps:
+      - name: Download prepared repository
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
+        with:
+          name: bundle
+          path: .
+
+      - name: Restore Python
+        uses: ./.github/actions/restore-python
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON }}
+          cache-key: ${{ needs.common.outputs.cache-key }}
+
+      - name: Run pytest
+        run: |
+          . venv/bin/activate
+          pytest tests/ -v
+
   esphome-config:
     name: Validate example configurations
     runs-on: ubuntu-24.04
@@ -404,7 +418,7 @@ jobs:
       - common
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -442,7 +456,7 @@ jobs:
       - common
     steps:
       - name: Download prepared repository
-        uses: pyTooling/download-artifact@v4
+        uses: pyTooling/download-artifact@dc575e4e9df4b6e3580712285f1c90f579bb8712  # v8
         with:
           name: bundle
           path: .
@@ -453,6 +467,22 @@ jobs:
           python-version: ${{ env.DEFAULT_PYTHON }}
           cache-key: ${{ needs.common.outputs.cache-key }}
 
+      - name: Cache platformio
+        if: github.ref == 'refs/heads/main'
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7  # v5.0.4
+        with:
+          path: ~/.platformio
+          key: platformio-compile-${{ hashFiles('esphome/platformio.ini') }}
+          restore-keys: platformio-compile-
+
+      - name: Cache platformio
+        if: github.ref != 'refs/heads/main'
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7  # v5.0.4
+        with:
+          path: ~/.platformio
+          key: platformio-compile-${{ hashFiles('esphome/platformio.ini') }}
+          restore-keys: platformio-compile-
+
       - name: Compile example configurations
         run: |
           . venv/bin/activate
@@ -460,9 +490,13 @@ jobs:
           for YAML in esp*.yaml; do
             esphome -s external_components_source components compile $YAML
           done
+        env:
+          PLATFORMIO_LIBDEPS_DIR: ~/.platformio/libdeps
 
       - name: Compile test configurations
         run: |
           . venv/bin/activate
           echo -e "wifi_ssid: ssid\nwifi_password: password\nmqtt_host: host\nmqtt_username: username\nmqtt_password: password" > tests/secrets.yaml
           esphome -s external_components_source ../components compile tests/esp32c6-compatibility-test.yaml
+        env:
+          PLATFORMIO_LIBDEPS_DIR: ~/.platformio/libdeps
